@@ -21,7 +21,7 @@ pipeline {
             steps{
                 /* groovylint-disable-next-line DuplicateListLiteral */
                 script{
-                  sh "  ansible-playbook ssl.yaml -i hosts "
+                  sh "  ansible-playbook ssl.yaml -i hosts.yaml "
                 }
             }
 
