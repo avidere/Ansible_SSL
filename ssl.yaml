@@ -1,13 +1,8 @@
 - name: Create SSL certificate
   hosts: all
   become: yes
-  vars:
-    cert_dir: /etc/ssl/certs
-    cert_name: ssl_webserver.crt
-    key_name: ssl_webserver.key
-    csr_name: ssl_webserver.csr
-    days_valid: 1
-    common_name: webserver.com
+  vars_files:
+    - vars.yaml
   tasks:
 
     - name: Generate SSL key
@@ -31,9 +26,10 @@
     - name: Check if SSL certificate needs renewal
       stat:
         path: "{{ cert_dir }}/{{ cert_name }}"
-      register: cert_stat
+      register: cert_status
+
     - name: Renew SSL certificate if it is expired
-      when: cert_stat.stat.exists and cert_stat.stat.ctime < ((days_valid * 86400) * 0.5)
+      when: cert_status.stat.exists and cert_status.stat.ctime < ((days_valid * 86400) * 0.5)
       openssl_certificate:
         path: "{{ cert_dir }}/{{ cert_name }}"
         privatekey_path: "{{ cert_dir }}/{{ key_name }}"

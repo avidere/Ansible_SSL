@@ -1,0 +1,6 @@
+    cert_dir: /etc/ssl/certs
+    cert_name: ssl_webserver.crt
+    key_name: ssl_webserver.key
+    csr_name: ssl_webserver.csr
+    days_valid: 1
+    common_name: webserver.com
